@@ -14,7 +14,7 @@ import { Form, Formik, Field } from 'formik';
 import Message from '../components/Message';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const burl = 'http://localhost:40537'
+
 
 function NewFeedback(){
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ function NewFeedback(){
                 }
             }
             const { data } = await axios.post(
-                `${burl}/api/feedback`,
+                `${process.env.REACT_APP_BASE_URL}/api/feedback`,
                 {
                     Name: props.nimi,
                     feedbackString: props.palaute
@@ -121,8 +121,8 @@ function NewFeedback(){
                     )}
                 </Formik>
             </Flex>
-            {error == true && message ? (<Message status='error' message={message} />): null}
-            {error == false  && message ? (<Message status='success' message={message} />): null}
+            {error === true && message ? (<Message status='error' message={message} />): null}
+            {error === false  && message ? (<Message status='success' message={message} />): null}
             </Container>
         </>
     )

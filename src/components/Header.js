@@ -1,15 +1,7 @@
 import React from 'react'
 import {
     Flex,
-    Heading,
-    Button,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    IconButton,
-    Text,
-    ButtonGroup,
+    Heading
 } from "@chakra-ui/react"
 import { HashLink } from 'react-router-hash-link';
 

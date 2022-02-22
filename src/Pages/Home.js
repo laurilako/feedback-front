@@ -8,12 +8,9 @@ import {
     Heading,
     Container,
     SimpleGrid,
-    Box,
-    GridItem,
-    filter,
+    GridItem
 } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
-const burl = 'http://localhost:40537'
 
 function Home(){
     const navigate = useNavigate();
@@ -32,6 +29,8 @@ function Home(){
         const a = feedbacks.filter(function (feedback) {
             if(feedback.status){
                 return feedback
+            } else {
+                return null
             }
         })
         setChecked(a);
@@ -45,7 +44,7 @@ function Home(){
                 }
             }
             await axios.put(
-                `${burl}/api/feedback/${props.id}`,
+                `${process.env.REACT_APP_BASE_URL}/api/feedback/${props.id}`,
                 {
                     Name: props.name,
                     feedbackString: props.string, 
@@ -61,7 +60,7 @@ function Home(){
 
     const handleDelete = async (id) => {
         if(window.confirm("Poista palaute?")){
-            const res =  await axios.delete(`${burl}/api/feedback/${id}`)
+            const res =  await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/feedback/${id}`)
             if(res.status === 204){
                 getFeedbacks()
             }
@@ -69,7 +68,7 @@ function Home(){
     }
 
     const getFeedbacks = async () => {
-        const { data } = await axios.get(`${burl}/api/feedback`)
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/feedback`)
         setFeedbacks(data);
     }
 
@@ -103,7 +102,7 @@ function Home(){
                     <SimpleGrid>
                         {feedbacks.map((feedback => (
                             <GridItem p='2' key={feedback.id}>
-                                {feedback.status == false ? 
+                                {feedback.status === false ? 
                                 <>
                                     <Palautekortti check={handleCheck} delete={handleDelete} id={feedback.id} name={feedback.name} string={feedback.feedbackString}>
                                     </Palautekortti>
@@ -120,7 +119,7 @@ function Home(){
                         <SimpleGrid>
                             {feedbacks.map((feedback => (
                                 <GridItem p='2' key={feedback.id}>
-                                    {feedback.status == true ? 
+                                    {feedback.status === true ? 
                                     <>
                                         <Palautekortti nahty={true} check={handleCheck} delete={handleDelete} id={feedback.id} name={feedback.name} string={feedback.feedbackString}>
                                         </Palautekortti>
